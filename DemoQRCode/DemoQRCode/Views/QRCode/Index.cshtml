@@ -1,162 +1,385 @@
 @model DemoQRCode.Models.QRCodeModel
 
 @{
-    ViewData["Title"] = "Generate QR Code";
+    ViewData["Title"] = "QR Code Generator - Create QR Codes for Free";
+    // Default to URL tab if no QRCodeType is set
+    int currentTab = Model?.QRCodeType ?? 4;
 }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+<div class="container my-5">
+    <!-- Header -->
+    <h1 class="display-4 text-center mb-3 text-primary">QR Code Generator</h1>
+    <p class="text-muted text-center mb-5">
+        Create unlimited static QR Codes for free—forever, with no frills. Need more flexibility? Unlock free
+        dynamic QR Codes that you can edit anytime.
+    </p>
 
-    <form asp-action="Index" method="post" class="needs-validation" novalidate>
-        <!-- QR Code Type -->
-        <div class="mb-3">
-            <label for="QRCodeType" class="form-label">QR Code Type:</label>
-            <select id="QRCodeType" name="QRCodeType" asp-for="QRCodeType" class="form-select">
-                <option value="1">SMS</option>
-                <option value="2">WhatsApp</option>
-                <option value="3">Email</option>
-                <option value="4">URL</option>
-                <option value="5">WiFi</option>
-                <option value="6">Text</option>
-                <option value="7">Contact Information (VCard)</option>
-            </select>
+    <div class="row">
+        <div class="col-lg-8">
+            <form asp-action="Index" method="post" class="needs-validation bg-white p-4 rounded shadow" novalidate>
+                <!-- Hidden field to store the QRCodeType value -->
+                <input type="hidden" asp-for="QRCodeType" id="qrCodeTypeInput" value="@currentTab" />
+
+                <!-- QR Code Type Tabs -->
+                <div class="nav nav-tabs mb-4" id="qrTypeTabs" role="tablist">
+                    <button class="nav-link @(currentTab == 4 ? "active" : "")" id="url-tab" data-bs-toggle="tab" data-bs-target="#url" type="button" role="tab" aria-controls="url" aria-selected="@(currentTab == 4 ? "true" : "false")" data-qr-type="4">
+                        <i class="bi bi-link text-primary"></i> URL
+                    </button>
+                    <button class="nav-link @(currentTab == 7 ? "active" : "")" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="@(currentTab == 7 ? "true" : "false")" data-qr-type="7">
+                        <i class="bi bi-person-vcard text-primary"></i> Contact
+                    </button>
+                    <button class="nav-link @(currentTab == 6 ? "active" : "")" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button" role="tab" aria-controls="text" aria-selected="@(currentTab == 6 ? "true" : "false")" data-qr-type="6">
+                        <i class="bi bi-file-text text-primary"></i> Plain Text
+                    </button>
+                    <button class="nav-link @(currentTab == 1 ? "active" : "")" id="sms-tab" data-bs-toggle="tab" data-bs-target="#sms" type="button" role="tab" aria-controls="sms" aria-selected="@(currentTab == 1 ? "true" : "false")" data-qr-type="1">
+                        <i class="bi bi-chat text-primary"></i> SMS
+                    </button>
+                    <button class="nav-link @(currentTab == 3 ? "active" : "")" id="email-tab" data-bs-toggle="tab" data-bs-target="#email" type="button" role="tab" aria-controls="email" aria-selected="@(currentTab == 3 ? "true" : "false")" data-qr-type="3">
+                        <i class="bi bi-envelope text-primary"></i> Email
+                    </button>
+                    <button class="nav-link @(currentTab == 5 ? "active" : "")" id="wifi-tab" data-bs-toggle="tab" data-bs-target="#wifi" type="button" role="tab" aria-controls="wifi" aria-selected="@(currentTab == 5 ? "true" : "false")" data-qr-type="5">
+                        <i class="bi bi-wifi text-primary"></i> Wifi
+                    </button>
+                    <button class="nav-link @(currentTab == 2 ? "active" : "")" id="whatsapp-tab" data-bs-toggle="tab" data-bs-target="#whatsapp" type="button" role="tab" aria-controls="whatsapp" aria-selected="@(currentTab == 2 ? "true" : "false")" data-qr-type="2">
+                        <i class="bi bi-whatsapp text-primary"></i> WhatsApp
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content p-3" id="qrTypeContent">
+                    <!-- URL -->
+                    <div class="tab-pane fade @(currentTab == 4 ? "show active" : "")" id="url" role="tabpanel" aria-labelledby="url-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Redirect to an existing web URL</h5>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Url" class="form-control border-secondary" id="urlInput" placeholder="Enter URL">
+                                <label for="urlInput">Enter URL</label>
+                            </div>
+                            <div class="form-text text-muted mb-3">Try something like https://example.com/</div>
+                        </div>
+                    </div>
+
+                    <!-- SMS -->
+                    <div class="tab-pane fade @(currentTab == 1 ? "show active" : "")" id="sms" role="tabpanel" aria-labelledby="sms-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create SMS QR Code</h5>
+                            <div class="form-floating mb-3">
+                                <input asp-for="PhoneNumber" class="form-control border-secondary" id="phoneInput" placeholder="Enter phone number">
+                                <label for="phoneInput">Phone Number</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="MessageSMS" class="form-control border-secondary" id="smsMessage" placeholder="Enter your message" style="height: 100px"></textarea>
+                                <label for="smsMessage">Message</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="tab-pane fade @(currentTab == 2 ? "show active" : "")" id="whatsapp" role="tabpanel" aria-labelledby="whatsapp-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create WhatsApp QR Code</h5>
+                            <div class="form-floating mb-3">
+                                <input asp-for="WhatsAppNumber" class="form-control border-secondary" id="whatsappInput" placeholder="Enter WhatsApp number">
+                                <label for="whatsappInput">WhatsApp Number</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="WhatsAppMessage" class="form-control border-secondary" id="whatsappMessage" placeholder="Enter your message" style="height: 100px"></textarea>
+                                <label for="whatsappMessage">WhatsApp Message</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="tab-pane fade @(currentTab == 3 ? "show active" : "")" id="email" role="tabpanel" aria-labelledby="email-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create Email QR Code</h5>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ReceiveEmailAddress" class="form-control border-secondary" id="emailInput" placeholder="Enter recipient email address">
+                                <label for="emailInput">Recipient Email Address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="EmailSubject" class="form-control border-secondary" id="subjectInput" placeholder="Enter email subject">
+                                <label for="subjectInput">Subject</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="EmailMessage" class="form-control border-secondary" id="emailMessage" placeholder="Enter your message" style="height: 100px"></textarea>
+                                <label for="emailMessage">Message</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plain Text -->
+                    <div class="tab-pane fade @(currentTab == 6 ? "show active" : "")" id="text" role="tabpanel" aria-labelledby="text-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create Text QR Code</h5>
+                            <div class="form-floating mb-3">
+                                <textarea asp-for="Message" class="form-control border-secondary" id="textMessage" placeholder="Enter your text" style="height: 150px"></textarea>
+                                <label for="textMessage">Text Content</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- WiFi -->
+                    <div class="tab-pane fade @(currentTab == 5 ? "show active" : "")" id="wifi" role="tabpanel" aria-labelledby="wifi-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create WiFi QR Code</h5>
+                            <div class="form-floating mb-3">
+                                <input asp-for="WifiSSID" class="form-control border-secondary" id="ssidInput" placeholder="Enter WiFi SSID">
+                                <label for="ssidInput">WiFi SSID</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="WifiPassword" class="form-control border-secondary" id="wifiPassInput" placeholder="Enter WiFi password">
+                                <label for="wifiPassInput">WiFi Password</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="tab-pane fade @(currentTab == 7 ? "show active" : "")" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="mb-4">
+                            <h5 class="mb-3 text-secondary">Create Contact QR Code</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="ContactFirstName" class="form-control border-secondary" id="firstNameInput" placeholder="Enter first name">
+                                        <label for="firstNameInput">First Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="ContactLastName" class="form-control border-secondary" id="lastNameInput" placeholder="Enter last name">
+                                        <label for="lastNameInput">Last Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ContactPhone" class="form-control border-secondary" id="contactPhoneInput" placeholder="Enter phone number">
+                                <label for="contactPhoneInput">Phone Number</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ContactEmail" class="form-control border-secondary" id="contactEmailInput" placeholder="Enter email">
+                                <label for="contactEmailInput">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ContactCompany" class="form-control border-secondary" id="companyInput" placeholder="Enter company name">
+                                <label for="companyInput">Company</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ContactAddress" class="form-control border-secondary" id="addressInput" placeholder="Enter address">
+                                <label for="addressInput">Address</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Generate QR Code</button>
+                    <button type="reset" id="btn-reset" class="btn btn-outline-secondary">Reset</button>
+                </div>
+            </form>
         </div>
 
-        <!-- Dynamic Fields -->
-
-        <!-- SMS -->
-        <div id="div1" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label">Phone Number:</label>
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="MessageSMS" class="form-label">Message:</label>
-                <textarea asp-for="MessageSMS" class="form-control" rows="3" placeholder="Enter your message"></textarea>
-            </div>
-        </div>
-
-        <!-- WhatsApp -->
-        <div id="div2" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="WhatsAppNumber" class="form-label">WhatsApp Number:</label>
-                <input asp-for="WhatsAppNumber" class="form-control" placeholder="Enter WhatsApp number" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="WhatsAppMessage" class="form-label">WhatsApp Message:</label>
-                <textarea asp-for="WhatsAppMessage" class="form-control" rows="3" placeholder="Enter your message"></textarea>
-            </div>
-        </div>
-
-        <!-- Email -->
-        <div id="div3" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="ReceiveEmailAddress" class="form-label">Recipient Email Address:</label>
-                <input asp-for="ReceiveEmailAddress" class="form-control" placeholder="Enter recipient email address" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="EmailSubject" class="form-label">Subject:</label>
-                <input asp-for="EmailSubject" class="form-control" placeholder="Enter email subject" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="EmailMessage" class="form-label">Message:</label>
-                <textarea asp-for="EmailMessage" class="form-control" rows="3" placeholder="Enter your message"></textarea>
-            </div>
-        </div>
-
-        <!-- URL -->
-        <div id="div4" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="Url" class="form-label">URL:</label>
-                <input asp-for="Url" class="form-control" placeholder="Enter URL" />
-            </div>
-        </div>
-
-        <!-- WiFi -->
-        <div id="div5" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="WifiSSID" class="form-label">WiFi SSID:</label>
-                <input asp-for="WifiSSID" class="form-control" placeholder="Enter WiFi SSID" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="WifiPassword" class="form-label">WiFi Password:</label>
-                <input asp-for="WifiPassword" class="form-control" placeholder="Enter WiFi password" />
-            </div>
-        </div>
-
-        <!-- Text -->
-        <div id="div6" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="Message" class="form-label">Text Content:</label>
-                <textarea asp-for="Message" class="form-control" rows="3" placeholder="Enter your text"></textarea>
-            </div>
-        </div>
-
-        <!-- Contact Information (VCard) -->
-        <div id="div7" class="hideDiv">
-            <div class="mb-3">
-                <label asp-for="ContactFirstName" class="form-label">First Name:</label>
-                <input asp-for="ContactFirstName" class="form-control" placeholder="Enter first name" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContactLastName" class="form-label">Last Name:</label>
-                <input asp-for="ContactLastName" class="form-control" placeholder="Enter last name" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContactPhone" class="form-label">Phone Number:</label>
-                <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContactEmail" class="form-label">Email:</label>
-                <input asp-for="ContactEmail" class="form-control" placeholder="Enter email" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContactCompany" class="form-label">Company:</label>
-                <input asp-for="ContactCompany" class="form-control" placeholder="Enter company name" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="ContactAddress" class="form-label">Address:</label>
-                <input asp-for="ContactAddress" class="form-control" placeholder="Enter address" />
-            </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="mb-3">
-            <button type="submit" class="btn btn-primary w-100">Generate QR Code</button>
-            <button type="reset" id="btn-reset" class="btn-dark w-100">Reset</button>
-        </div>
-
-        <!-- QR Code Display -->
-        <div class="mt-5 text-center w-100 h-100">
-            @if (!string.IsNullOrEmpty(Model.QRImageUrl))
-            {
-                <h3>Generated QR Code:</h3>
-                <img src="@Model.QRImageUrl" alt="QR Code" class="img-fluid border rounded" style="width: 150px; height: 150px;" />
-            }
-        </div>
-    </form>
-
-    @section Scripts
-    {
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const qrCodeTypeSelect = document.getElementById("QRCodeType");
-                const hideDivs = document.querySelectorAll(".hideDiv");
-
-                // Show/hide fields based on selected QR code type
-                function toggleDivs() {
-                    const selectedValue = qrCodeTypeSelect.value;
-                    hideDivs.forEach(div => div.style.display = "none");
-                    const targetDiv = document.getElementById(`div${selectedValue}`);
-                    if (targetDiv) {
-                        targetDiv.style.display = "block";
+        <!-- QR Code Preview -->
+        <div class="col-lg-4">
+            <div class="card shadow h-100 border-0">
+                <div class="card-header bg-gradient text-white" style="background-color: #4361ee;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">QR Code Preview</h5>
+                    </div>
+                </div>
+                <div class="card-body text-center d-flex flex-column justify-content-center align-items-center" style="background-color: #f8f9fa;">
+                    @if (!string.IsNullOrEmpty(Model?.QRImageUrl))
+                    {
+                        <img src="@Model.QRImageUrl" alt="QR Code" id="qrCodeImage" class="img-fluid border p-2 bg-white rounded shadow-sm mb-3" style="max-width: 200px;">
+                        <div class="btn-group mt-3">
+                            <button class="btn btn-success" id="downloadBtn">
+                                <i class="bi bi-save me-1"></i> Download
+                            </button>
+                            <button class="btn btn-outline-dark" id="copyBtn">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                        <!-- Invisible canvas for copying -->
+                        <canvas id="hiddenCanvas" style="display: none;"></canvas>
                     }
-                }
-
-                qrCodeTypeSelect.addEventListener("change", toggleDivs);
-
-                toggleDivs();
-            });
-        </script>
-    }
+                    else
+                    {
+                        <div class="p-4 bg-white border rounded shadow-sm mb-3">
+                            <img src="/images/qr-placeholder.png" alt="QR Code Preview" class="img-fluid" style="width: 200px; height: 200px;">
+                        </div>
+                        <div class="btn-group mt-3">
+                            <button class="btn btn-success" disabled>
+                                <i class="bi bi-save me-1"></i> Download
+                            </button>
+                            <button class="btn btn-outline-dark" disabled>
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize Bootstrap tabs - explicitly activate the current tab
+            const currentTab = document.querySelector('#qrTypeTabs button.active');
+            if (currentTab) {
+                const tabTrigger = new bootstrap.Tab(currentTab);
+                tabTrigger.show();
+            }
+            
+            // Add click handlers to all tabs
+            const triggerTabList = [].slice.call(document.querySelectorAll('#qrTypeTabs button'));
+            triggerTabList.forEach(function (triggerEl) {
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+                
+                // Update QRCodeType when tab is clicked
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    tabTrigger.show();
+                    
+                    // Update hidden input with the QR type value from data attribute
+                    const qrType = this.getAttribute('data-qr-type');
+                    document.getElementById('qrCodeTypeInput').value = qrType;
+                });
+            });
+
+            // Reset button functionality
+            document.getElementById('btn-reset').addEventListener('click', function () {
+                setTimeout(function () {
+                    // Reset active tab to URL and reset QRCodeType
+                    document.getElementById('url-tab').click();
+                    document.getElementById('qrCodeTypeInput').value = "4"; // URL is type 4
+                }, 100);
+            });
+
+            // Download QR Code
+            const downloadButton = document.querySelector("#downloadBtn");
+            if (downloadButton) {
+                downloadButton.addEventListener("click", function () {
+                    const qrImage = document.querySelector("#qrCodeImage");
+                    if (qrImage && qrImage.src && !qrImage.src.includes('placeholder')) {
+                        const link = document.createElement("a");
+                        link.href = qrImage.src;
+                        link.download = "QRCode.png";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } else {
+                        alert("No QR Code available to download.");
+                    }
+                });
+            }
+
+            // Copy QR Code Image - Improved cross-platform method
+            const copyButton = document.querySelector("#copyBtn");
+            if (copyButton) {
+                copyButton.addEventListener("click", function() {
+                    const qrImage = document.querySelector("#qrCodeImage");
+                    if (!qrImage || qrImage.src.includes('placeholder')) {
+                        alert("No QR Code available to copy.");
+                        return;
+                    }
+
+                    // Try multiple copy methods for better cross-platform support
+                    copyQRCodeThroughMultipleMethods(qrImage);
+                });
+            }
+
+            // Multi-method approach for copying image to clipboard
+            function copyQRCodeThroughMultipleMethods(imageElement) {
+                // Try modern ClipboardItem API first
+                if (navigator.clipboard && window.ClipboardItem) {
+                    copyUsingClipboardAPI(imageElement)
+                        .then(success => {
+                            if (!success) {
+                                // If ClipboardItem API fails, try canvas method
+                                copyUsingCanvasMethod(imageElement);
+                            }
+                        })
+                        .catch(err => {
+                            console.log("Clipboard API failed, trying Canvas method", err);
+                            // Fall back to canvas method
+                            copyUsingCanvasMethod(imageElement);
+                        });
+                } else {
+                    // Directly use Canvas method for older browsers
+                    copyUsingCanvasMethod(imageElement);
+                }
+            }
+
+            // Try to copy using the Clipboard API
+            async function copyUsingClipboardAPI(imageElement) {
+                try {
+                    const response = await fetch(imageElement.src);
+                    const blob = await response.blob();
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            [blob.type]: blob
+                        })
+                    ]);
+                    alert("QR Code copied to clipboard successfully!");
+                    return true;
+                } catch (err) {
+                    console.error("ClipboardItem API failed:", err);
+                    return false;
+                }
+            }
+
+            // Use Canvas as a fallback method (works on more browsers)
+            function copyUsingCanvasMethod(imageElement) {
+                try {
+                    const canvas = document.getElementById('hiddenCanvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Match canvas size to image
+                    canvas.width = imageElement.naturalWidth;
+                    canvas.height = imageElement.naturalHeight;
+                    
+                    // Draw image on canvas
+                    ctx.drawImage(imageElement, 0, 0);
+                    
+                    // Create a new image with proper MIME type
+                    canvas.toBlob(function(blob) {
+                        try {
+                            // Try navigator.clipboard API first (modern browsers)
+                            if (navigator.clipboard && navigator.clipboard.write) {
+                                navigator.clipboard.write([
+                                    new ClipboardItem({
+                                        'image/png': blob
+                                    })
+                                ]).then(() => {
+                                    alert("QR Code copied to clipboard successfully!");
+                                }).catch(err => {
+                                    console.error("Canvas clipboard write failed:", err);
+                                    fallbackCopyMethod();
+                                });
+                            } else {
+                                fallbackCopyMethod();
+                            }
+                        } catch (error) {
+                            console.error("Error in canvas copy process:", error);
+                            fallbackCopyMethod();
+                        }
+                    }, 'image/png');
+                } catch (error) {
+                    console.error("Canvas copy method failed:", error);
+                    fallbackCopyMethod();
+                }
+            }
+
+            // Last resort: Open image in new tab for manual copy
+            function fallbackCopyMethod() {
+                const qrImage = document.querySelector("#qrCodeImage");
+                alert("Unable to copy directly to clipboard. The QR code will open in a new tab where you can right-click and copy it.");
+                window.open(qrImage.src, '_blank');
+            }
+        });
+    </script>
+}
