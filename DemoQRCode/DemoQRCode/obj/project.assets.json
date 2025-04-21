@@ -5602,11 +5602,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
+      "projectUniqueName": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
       "projectName": "DemoQRCode",
-      "projectPath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
+      "projectPath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
       "packagesPath": "/Users/admin/.nuget/packages/",
-      "outputPath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/DemoQRCode/DemoQRCode/obj/",
+      "outputPath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/admin/.nuget/NuGet/NuGet.Config"

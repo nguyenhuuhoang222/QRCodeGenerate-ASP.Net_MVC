@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eyRrpanMCwE=",
+  "dgSpecHash": "dlsTaKPv7RE=",
   "success": true,
-  "projectFilePath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
+  "projectFilePath": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/DemoQRCode.csproj",
   "expectedPackageFiles": [
     "/Users/admin/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/Users/admin/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

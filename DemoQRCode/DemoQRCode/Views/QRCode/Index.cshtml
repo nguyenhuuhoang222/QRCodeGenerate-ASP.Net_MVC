@@ -15,10 +15,16 @@
                 <option value="1">SMS</option>
                 <option value="2">WhatsApp</option>
                 <option value="3">Email</option>
-                <option value="6">WiFi</option>
+                <option value="4">URL</option>
+                <option value="5">WiFi</option>
+                <option value="6">Text</option>
+                <option value="7">Contact Information (VCard)</option>
             </select>
         </div>
 
+        <!-- Dynamic Fields -->
+
+        <!-- SMS -->
         <div id="div1" class="hideDiv">
             <div class="mb-3">
                 <label asp-for="PhoneNumber" class="form-label">Phone Number:</label>
@@ -30,6 +36,7 @@
             </div>
         </div>
 
+        <!-- WhatsApp -->
         <div id="div2" class="hideDiv">
             <div class="mb-3">
                 <label asp-for="WhatsAppNumber" class="form-label">WhatsApp Number:</label>
@@ -41,22 +48,32 @@
             </div>
         </div>
 
+        <!-- Email -->
         <div id="div3" class="hideDiv">
             <div class="mb-3">
                 <label asp-for="ReceiveEmailAddress" class="form-label">Recipient Email Address:</label>
                 <input asp-for="ReceiveEmailAddress" class="form-control" placeholder="Enter recipient email address" />
             </div>
             <div class="mb-3">
-                <label asp-for="Subject" class="form-label">Subject:</label>
-                <input asp-for="Subject" class="form-control" placeholder="Enter email subject" />
+                <label asp-for="EmailSubject" class="form-label">Subject:</label>
+                <input asp-for="EmailSubject" class="form-control" placeholder="Enter email subject" />
             </div>
             <div class="mb-3">
-                <label asp-for="Message" class="form-label">Message:</label>
-                <textarea asp-for="Message" class="form-control" rows="3" placeholder="Enter your message"></textarea>
+                <label asp-for="EmailMessage" class="form-label">Message:</label>
+                <textarea asp-for="EmailMessage" class="form-control" rows="3" placeholder="Enter your message"></textarea>
             </div>
         </div>
 
-        <div id="div6" class="hideDiv">
+        <!-- URL -->
+        <div id="div4" class="hideDiv">
+            <div class="mb-3">
+                <label asp-for="Url" class="form-label">URL:</label>
+                <input asp-for="Url" class="form-control" placeholder="Enter URL" />
+            </div>
+        </div>
+
+        <!-- WiFi -->
+        <div id="div5" class="hideDiv">
             <div class="mb-3">
                 <label asp-for="WifiSSID" class="form-label">WiFi SSID:</label>
                 <input asp-for="WifiSSID" class="form-control" placeholder="Enter WiFi SSID" />
@@ -64,6 +81,42 @@
             <div class="mb-3">
                 <label asp-for="WifiPassword" class="form-label">WiFi Password:</label>
                 <input asp-for="WifiPassword" class="form-control" placeholder="Enter WiFi password" />
+            </div>
+        </div>
+
+        <!-- Text -->
+        <div id="div6" class="hideDiv">
+            <div class="mb-3">
+                <label asp-for="Message" class="form-label">Text Content:</label>
+                <textarea asp-for="Message" class="form-control" rows="3" placeholder="Enter your text"></textarea>
+            </div>
+        </div>
+
+        <!-- Contact Information (VCard) -->
+        <div id="div7" class="hideDiv">
+            <div class="mb-3">
+                <label asp-for="ContactFirstName" class="form-label">First Name:</label>
+                <input asp-for="ContactFirstName" class="form-control" placeholder="Enter first name" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ContactLastName" class="form-label">Last Name:</label>
+                <input asp-for="ContactLastName" class="form-control" placeholder="Enter last name" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ContactPhone" class="form-label">Phone Number:</label>
+                <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ContactEmail" class="form-label">Email:</label>
+                <input asp-for="ContactEmail" class="form-control" placeholder="Enter email" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ContactCompany" class="form-label">Company:</label>
+                <input asp-for="ContactCompany" class="form-control" placeholder="Enter company name" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="ContactAddress" class="form-label">Address:</label>
+                <input asp-for="ContactAddress" class="form-control" placeholder="Enter address" />
             </div>
         </div>
 
@@ -82,6 +135,7 @@
             }
         </div>
     </form>
+
     @section Scripts
     {
         <script>
@@ -89,7 +143,7 @@
                 const qrCodeTypeSelect = document.getElementById("QRCodeType");
                 const hideDivs = document.querySelectorAll(".hideDiv");
 
-                // Function to show/hide divs based on selected value
+                // Show/hide fields based on selected QR code type
                 function toggleDivs() {
                     const selectedValue = qrCodeTypeSelect.value;
                     hideDivs.forEach(div => div.style.display = "none");
@@ -99,10 +153,8 @@
                     }
                 }
 
-                // Attach change event listener
                 qrCodeTypeSelect.addEventListener("change", toggleDivs);
 
-                // Initialize visibility on page load
                 toggleDivs();
             });
         </script>
