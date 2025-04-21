@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IYHaebJ9w/pvXbdiV7rXV1PHgQA80YpCvBhIKmNl7rY=",
+  "Hash": "IdVLCjVteexeYgD1Y3G8gHNZ764XY/XYojcOtXGvANM=",
   "Source": "DemoQRCode",
   "BasePath": "_content/DemoQRCode",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/wwwroot/img/Logo.png",
+      "SourceId": "DemoQRCode",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/wwwroot/",
+      "BasePath": "_content/DemoQRCode",
+      "RelativePath": "img/Logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/Logo.png"
     },
     {
       "Identity": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/wwwroot/js/site.js",

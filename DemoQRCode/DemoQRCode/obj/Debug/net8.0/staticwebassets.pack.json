@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/wwwroot/img/Logo.png",
+      "PackagePath": "staticwebassets/img/Logo.png"
+    },
+    {
       "Id": "/Users/admin/Documents/SamuelNguyenDV/HK3/ASP.NET CORE API/QRCodeGenerate-ASP.Net_MVC/DemoQRCode/DemoQRCode/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
