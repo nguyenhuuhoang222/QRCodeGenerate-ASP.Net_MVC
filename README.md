@@ -31,6 +31,8 @@ A simple demo web application to generate various types of QR Codes including:
 	```bash 
     dotnet run
 
- 📬 Contact
+📸 Preview
+![QR Code Sample](wwwroot/images/qr-sample.png)
+📬 Contact
 
 Developed by Nguyễn Hữu Hoàng (Samuel) - huuhoangnguyen186@gmail.com
