@@ -31,9 +31,9 @@ A simple demo web application to generate various types of QR Codes including:
 	```bash 
     dotnet run
 
-📸 Preview
+## 📷 QR Code Sample
 
-![image](https://github.com/user-attachments/assets/e473e942-826a-4dd9-a391-aa6182e418d0)
+<img src="https://github.com/user-attachments/assets/e473e942-826a-4dd9-a391-aa6182e418d0" alt="QR Code Sample" width="200" height="200">
 
 📬 Contact
 
