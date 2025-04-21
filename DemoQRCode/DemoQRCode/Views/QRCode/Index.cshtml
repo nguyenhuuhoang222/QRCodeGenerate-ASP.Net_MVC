@@ -6,13 +6,15 @@
     int currentTab = Model?.QRCodeType ?? 4;
 }
 
+
 <div class="container my-5">
     <!-- Header -->
     <h1 class="display-4 text-center mb-3 text-primary">QR Code Generator</h1>
     <p class="text-muted text-center mb-5">
-        Create unlimited static QR Codes for free—forever, with no frills. Need more flexibility? Unlock free
-        dynamic QR Codes that you can edit anytime.
+        Generate unlimited static QR Codes instantly and at no cost—optimized for simplicity and reliability.
+        For advanced use cases, switch to our free dynamic QR Codes, which you can update at any time for complete control over your content.
     </p>
+
 
     <div class="row">
         <div class="col-lg-8">
@@ -52,8 +54,8 @@
                         <div class="mb-4">
                             <h5 class="mb-3 text-secondary">Redirect to an existing web URL</h5>
                             <div class="form-floating mb-3">
-                                <input asp-for="Url" class="form-control border-secondary" id="urlInput" placeholder="Enter URL">
-                                <label for="urlInput">Enter URL</label>
+                                <input asp-for="Url" class="form-control border-secondary" id="urlInput" placeholder="Enter URL" type="url" required>
+                                <label for="urlInput" >Enter URL</label>
                             </div>
                             <div class="form-text text-muted mb-3">Try something like https://example.com/</div>
                         </div>
@@ -64,13 +66,14 @@
                         <div class="mb-4">
                             <h5 class="mb-3 text-secondary">Create SMS QR Code</h5>
                             <div class="form-floating mb-3">
-                                <input asp-for="PhoneNumber" class="form-control border-secondary" id="phoneInput" placeholder="Enter phone number">
+                                <input asp-for="PhoneNumber" class="form-control border-secondary" id="phoneInput" placeholder="Enter phone number" type="number">
                                 <label for="phoneInput">Phone Number</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <textarea asp-for="MessageSMS" class="form-control border-secondary" id="smsMessage" placeholder="Enter your message" style="height: 100px"></textarea>
                                 <label for="smsMessage">Message</label>
                             </div>
+
                         </div>
                     </div>
 
@@ -79,7 +82,7 @@
                         <div class="mb-4">
                             <h5 class="mb-3 text-secondary">Create WhatsApp QR Code</h5>
                             <div class="form-floating mb-3">
-                                <input asp-for="WhatsAppNumber" class="form-control border-secondary" id="whatsappInput" placeholder="Enter WhatsApp number">
+                                <input asp-for="WhatsAppNumber" class="form-control border-secondary" id="whatsappInput" placeholder="Enter WhatsApp number" type="number">
                                 <label for="whatsappInput">WhatsApp Number</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -94,7 +97,7 @@
                         <div class="mb-4">
                             <h5 class="mb-3 text-secondary">Create Email QR Code</h5>
                             <div class="form-floating mb-3">
-                                <input asp-for="ReceiveEmailAddress" class="form-control border-secondary" id="emailInput" placeholder="Enter recipient email address">
+                                <input asp-for="ReceiveEmailAddress" class="form-control border-secondary" id="emailInput" placeholder="Enter recipient email address" type="email">
                                 <label for="emailInput">Recipient Email Address</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -128,7 +131,7 @@
                                 <label for="ssidInput">WiFi SSID</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input asp-for="WifiPassword" class="form-control border-secondary" id="wifiPassInput" placeholder="Enter WiFi password">
+                                <input asp-for="WifiPassword" class="form-control border-secondary" id="wifiPassInput" placeholder="Enter WiFi password" type="password">
                                 <label for="wifiPassInput">WiFi Password</label>
                             </div>
                         </div>
@@ -153,11 +156,11 @@
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input asp-for="ContactPhone" class="form-control border-secondary" id="contactPhoneInput" placeholder="Enter phone number">
+                                <input asp-for="ContactPhone" class="form-control border-secondary" id="contactPhoneInput" placeholder="Enter phone number" type="number">
                                 <label for="contactPhoneInput">Phone Number</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input asp-for="ContactEmail" class="form-control border-secondary" id="contactEmailInput" placeholder="Enter email">
+                                <input asp-for="ContactEmail" class="form-control border-secondary" id="contactEmailInput" placeholder="Enter email" type="email">
                                 <label for="contactEmailInput">Email</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -174,6 +177,12 @@
 
                 <!-- Action buttons -->
                 <div class="d-grid gap-2 mb-3">
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
                     <button type="submit" class="btn btn-primary btn-lg">Generate QR Code</button>
                     <button type="reset" id="btn-reset" class="btn btn-outline-secondary">Reset</button>
                 </div>
@@ -226,6 +235,27 @@
 @section Scripts
 {
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabs = document.querySelectorAll('#qrTypeTabs button');
+            const allFields = document.querySelectorAll('.qr-field');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // Lấy loại QR hiện tại từ thuộc tính data-qr-type
+                    const selectedType = this.getAttribute('data-qr-type');
+
+                    // Lặp qua tất cả các trường và vô hiệu hóa nếu không thuộc loại QR được chọn
+                    allFields.forEach(field => {
+                        const parentTab = field.closest('.tab-pane');
+                        if (parentTab && parentTab.id !== `qrTypeContent-${selectedType}`) {
+                            field.setAttribute('disabled', 'true');
+                        } else {
+                            field.removeAttribute('disabled');
+                        }
+                    });
+                });
+            });
+        });
         document.addEventListener("DOMContentLoaded", function () {
             // Initialize Bootstrap tabs - explicitly activate the current tab
             const currentTab = document.querySelector('#qrTypeTabs button.active');
@@ -381,5 +411,9 @@
                 window.open(qrImage.src, '_blank');
             }
         });
+        
+    
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
 }
