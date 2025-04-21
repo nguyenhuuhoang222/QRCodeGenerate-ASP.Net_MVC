@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DemoQRCode")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ecc39a0a550c08dd00c4904c445ed550b5571d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1492e4b75549bb920db207bc9d0aaf2741bf7ee7")]
 [assembly: System.Reflection.AssemblyProductAttribute("DemoQRCode")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DemoQRCode")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
