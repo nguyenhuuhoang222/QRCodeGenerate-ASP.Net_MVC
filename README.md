@@ -32,7 +32,9 @@ A simple demo web application to generate various types of QR Codes including:
     dotnet run
 
 📸 Preview
-![QR Code Sample](wwwroot/images/qr-sample.png)
+
+![image](https://github.com/user-attachments/assets/e473e942-826a-4dd9-a391-aa6182e418d0)
+
 📬 Contact
 
 Developed by Nguyễn Hữu Hoàng (Samuel) - huuhoangnguyen186@gmail.com
